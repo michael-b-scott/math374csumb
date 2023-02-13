@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb  8 06:08:13 2023
+Stochastic Model of Sandhill Crane Populuation
+MATH 374: Mathematical Modeling, CSUMB
 
-@author: mbs
+@author: Michael B. Scott
 """
 
 import pandas as pd
@@ -48,17 +49,14 @@ for j in range(simnum):
     BirthRate = pd.DataFrame({'Birthrate': pd.Series(dtype='float')})
     DeathRate = pd.DataFrame({'Deathrate': pd.Series(dtype='float')})
     
-    #print(f"j = {j}")
     
     for i in range(years+1):
         # Get population from previous year
         if (i == 0):
             Popm1 = P0
-            #print('initial value = 100')
         else:
-            #ColNamePre = "PopSim" + str(j)
             Popm1 = PopSto[ColName][i-1]
-            #lm.append(P.polyval(lm[i-1], pnpm))
+
    
        # print(f"Popm1={Popm1}") # Uncomment for debugging
         # Get Birthrate and Deathrate for each year
@@ -70,16 +68,11 @@ for j in range(simnum):
         else:
             BirthRate.loc[len(BirthRate.index)] = DemBirth[i]
             DeathRate.loc[len(DeathRate.index)] = DemDeath[i]
-            #DeathRate.append(DehmDeath[i])
       
-        #PopSto.append(np.round(Popm1*(1 + BirthRate[i] - DeathRate[i])))
         if (i == 0):
             PopSto.loc[len(PopSto.index)] = Popm1
         else:
             PopSto.loc[len(PopSto.index)] = Popm1*(1 + DemBirth[i] - DemDeath[i])
-        #PopSto.rename(columns = {})
-    
-        #print(f"i = {i}")
    
     simdata = pd.concat([simdata, PopSto], axis=1)
     
@@ -137,12 +130,12 @@ ax2.grid(True)
 # -------------------------------------------------------------------------
 fig3, ax3 = plt.subplots(figsize=(8, 4), layout='constrained')
 ax3.plot(xx+1, yy, label='Deterministic Model', c="darkblue")
-simdata_transpose = simdata.T
-#simdata_transpose.reset_index(drop=True, inplace=True)
-#simdata_box = simdata_transpose.groupby(simdata_transpose.index)
-#ax3.boxplot(simdata_transpose) 
 
-# Syntax of boxplot()
+# Need to transpose dataframe to work with boxplot. 
+simdata_transpose = simdata.T
+
+# Syntax of boxplot() using Pandas boxplot. 
+# Used Pandas due to issue with matplotlib boxplot offset x values for unknown reason.
 simdata_transpose.boxplot(ax=ax3)
 
 
@@ -153,13 +146,14 @@ ax3.set_ylabel('Crane Population', fontsize=11)  # Add a y-label to the axes.
 #ax3.legend();  # Add a legend.
 ax3.grid(True)
 
-
-# Line graphs for simulations
+# -------------------------------------------------------------------------
+# Line graphs of simulations
+# -------------------------------------------------------------------------
 fig4, ax4 = plt.subplots(figsize=(8, 4), layout='constrained')
 #for i in range(years+1):
-xvals = np.arange(years+1)
-xt = pd.DataFrame(xvals)
-#xt = xvals.T
+#xvals = np.arange(years+1)
+#xt = pd.DataFrame(xvals)
+
 
 for i in range(simnum):
     ax4.plot(range(years+1),simdata.iloc[:,i] )
@@ -174,6 +168,3 @@ ax4.yaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}'))
 
 ax4.legend();  # Add a legend.
 ax4.grid(True)
-
-
-
