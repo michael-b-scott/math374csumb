@@ -150,10 +150,6 @@ ax3.grid(True)
 # Line graphs of simulations
 # -------------------------------------------------------------------------
 fig4, ax4 = plt.subplots(figsize=(8, 4), layout='constrained')
-#for i in range(years+1):
-#xvals = np.arange(years+1)
-#xt = pd.DataFrame(xvals)
-
 
 for i in range(simnum):
     ax4.plot(range(years+1),simdata.iloc[:,i] )
