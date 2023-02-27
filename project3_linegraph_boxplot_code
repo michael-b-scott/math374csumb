@@ -1,0 +1,51 @@
+'''
+Code that can be used to plot line graphs and side-by-side boxplots for	
+	Project 3. We are using the dataframe called simdata with 50 simulations.
+'''
+
+# -------------------------------------------------------------------------
+# Line graphs of simulations
+# -------------------------------------------------------------------------
+fig4, ax4 = plt.subplots(figsize=(8, 4), layout='constrained')
+
+
+for i in range(simnum):
+    ax4.plot(p3datar['Year'],simdata.iloc[:,i] )
+    
+#ax4.plot(tt, yy, label='Deterministic Values', linestyle="dotted", color='darkblue')
+#ax4.plot(range(years+1), popsim, label='Mean Values', linestyle="dashed", color='black')
+
+ax4.set_title('Line Graphs for %i Simulations' %simnum)
+ax4.set_xlabel('Years', fontsize=11)  # Add an x-label to the axes.
+ax4.set_ylabel('Chickadee Population', fontsize=11)  # Add a y-label to the axes.
+#ax4.yaxis.set_major_formatter(StrMethodFormatter('{x:,.0f}'))
+
+#ax4.legend();  # Add a legend.
+ax4.grid(True)
+
+# -------------------------------------------------------------------------
+# Deterministic model with boxplots for each year and observed data -------
+# -------------------------------------------------------------------------
+fig3, ax3 = plt.subplots(figsize=(8, 4), layout='constrained')
+#ax3.plot(tt, yy, label='Deterministic Model', c="darkblue")
+
+# Need to transpose dataframe to work with boxplot. 
+simdata_transpose = simdata.T
+simdata_transpose.columns = p3datar['Year']
+
+
+# Syntax of boxplot() using Pandas boxplot. 
+# Used Pandas due to issue with matplotlib boxplot offset x values for unknown reason.
+# simdata_transpose.boxplot(ax=ax3)
+
+ax3.boxplot(simdata_transpose)
+ticks = np.arange(years+1) + 1
+plt.xticks(ticks, simdata_transpose.columns, rotation=45)
+ax3.plot(tt-1958, yy, label='Deterministic Model', c="darkblue")
+
+ax3.set_title('Side-by-Side Boxplots and Deterministic Model')
+ax3.set_xlabel('Years', fontsize=11)  # Add an x-label to the axes.
+ax3.set_ylabel('Chickadee Population', fontsize=11)  # Add a y-label to the axes.
+
+#ax3.legend();  # Add a legend.
+ax3.grid(True) 
