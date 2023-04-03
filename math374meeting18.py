@@ -111,5 +111,9 @@ ax5.set_xlabel('x')  # Add an x-label to the axes.
 ax5.set_ylabel('y')  # Add a y-label to the axes.
 ax5.grid()
 
-
 # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Check R-Squared ad-hoc vs. regression models
+yadhoc = 2.5*np.sin(1.5*(x-2.0))+6
+print('\n Ad-Hoc Model R-Squared = ', pow(yadhoc.corr(y),2))
+print('\n Regression Model R-Squared =  = ', pow(yfit.corr(y),2))
