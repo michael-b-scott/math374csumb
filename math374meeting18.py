@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Empirical Modeling Part 3
-Recap Least-Squares Criterion - Linear Regression
-R^2: A Measure of Fit
-Applications and Curvilinear Fit
-
+Empirical Modeling Part 4: Periodic Data
 
 MATH 374 Mathematical Modeling Spring 2023
 Department of Mathematics and Statistics
