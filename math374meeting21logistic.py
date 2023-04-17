@@ -12,7 +12,6 @@ California State University, Monterey Bay
 
 # Libraries
 import matplotlib.pyplot as plt
-#from matplotlib import ticker
 import numpy as np
 import pandas as pd
 from scipy.optimize import curve_fit
