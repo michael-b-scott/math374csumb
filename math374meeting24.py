@@ -49,7 +49,7 @@ t, y = np.meshgrid(np.linspace(-4, 4, 20),
 
 # Directional vectors
 u = t/t
-v = 0.25*(y**2 + y - 2)
+v = f(t,y)
 
 # Normalize Arrow Length
 u = u / np.sqrt(u**2 + v**2);
