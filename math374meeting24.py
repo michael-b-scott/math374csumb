@@ -22,15 +22,19 @@ from scipy import integrate
 def f(t,y):
     return 0.25*(y**2 + y - 2)
 
+# Set domain. You shouldn't have to change anything else below once set.
 t_range = (-4, 4)
 
 
+# Generate Solution Curves
 t_vals = pd.DataFrame() #Empty dataframe
 y_sols = pd.DataFrame() #Empty dataframe
 
-t_iter = 2*(t_range[1] - t_range[0])
+# Number of iterations. 
+i_num = 2 # If n, then set intial values at each 1/n units (if 2, then 1/2)
+t_iter = i_num*(t_range[1] - t_range[0])
 for i in range(0, t_iter):
-    t0n = t_range[0] + i/2
+    t0n = t_range[0] + i/i_num
     t0 = np.array([t0n])
     sol = integrate.solve_ivp(f, t_range, t0, max_step=0.1)
     t_val = pd.Series(sol.t)
@@ -44,8 +48,8 @@ for i in range(0, t_iter):
 # Generate direction field
 
 # Meshgrid
-t, y = np.meshgrid(np.linspace(-4, 4, 20), 
-                   np.linspace(-4, 4, 20))
+t, y = np.meshgrid(np.linspace(t_range[0], t_range[1], 20), 
+                   np.linspace(t_range[0], t_range[1], 20))
 
 # Directional vectors
 u = t/t
@@ -65,8 +69,30 @@ for i in range(len(y_sols.axes[1])):
 ax.set_title('Vector Field')
 ax.set_xlabel('t')  # Add an x-label to the axes.
 ax.set_ylabel('y')  # Add a y-label to the axes.
-ax.set_ylim(-4, 4)
-ax.set_ylim(-4, 4)
+ax.set_ylim(t_range[0], t_range[1])
+ax.set_ylim(t_range[0], t_range[1])
 ax.grid()
-#ax.legend()
 ax.set_aspect('equal')
+
+# ----------------------------------------------------------------------------
+# 2x2 Systems
+
+# Define Function for System
+def de_system(t,x,y):
+    return np.array([x*(1-x-y), y*(0.75-y-0.5*x)])
+
+x = np.linspace(0, 2, 25)
+y = np.linspace(0, 2, 25)
+X, Y = np.meshgrid(x, y)
+
+dx, dy = de_system(0, X, Y)
+
+# Normalize Arrow Length
+dx = dx / np.sqrt(dx**2 + dy**2);
+dy = dy / np.sqrt(dx**2 + dy**2);
+
+fig, ax = plt.subplots()
+ax.quiver(X, Y, dx, dy)
+ax.set_title("2 X 2 System")
+ax.set_xlabel("x")
+ax.set_ylabel("y")
