@@ -25,21 +25,6 @@ from numpy.linalg import eig
 A = np.array([[3.0, 5.0],
               [3.0, 1.0]])
 
-#A = np.array([[1.0, 1.0],
-#              [4.0, 1.0]])
-
-#A = np.array([[2.0, 1.0],
-#              [-3.0, 4.0]])
-
-#A = np.array([[-3.0, 2**0.5],
-#              [2**0.5, -2.0]])
-
-#A = np.array([[1.0, 1.0],
-#              [0.0, -2.0]])
-
-#A = np.array([[0.0, -1.0],
-#              [1.0,  0.0]])
-
 
 w,v = eig(A)
 # Eigenvectors
@@ -52,11 +37,6 @@ def de_system(t, ys):
     x = ys[0]
     y = ys[1]
     return np.array([A[0,0]*x+A[0,1]*y, A[1,0]*x+A[1,1]*y])
-
-
-
-
-# General Solution
 
 
 # Generate Vector Field
