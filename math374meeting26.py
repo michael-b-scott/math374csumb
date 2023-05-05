@@ -15,6 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from scipy import integrate
+from numpy.linalg import eig
 
 # ----------------------------------------------------------------------------
 # 2x2 Systems
@@ -30,8 +31,43 @@ def de_system(t,ys):
     return np.array([x*(a-b*y), y*(c*x-d)])
 
 # Critical Points
-cp = pd.DataFrame([[0,0], [d/c, a/b]], columns = ['x', 'y']) #Empty dataframe
+cp1 = [0,0]
+cp2 = [d/c, a/b]
+cp = pd.DataFrame([cp1, cp2], columns = ['x', 'y']) #Empty dataframe
 
+# -----------------------------------------------------------------------------
+# Computing Jacobian to determine fixed (critical) point behavior.
+# -----------------------------------------------------------------------------
+
+# Jacobian
+def jacobian(CP):
+    x = CP[0]
+    y = CP[1]
+    return np.array([[a-b*y, -b*x],
+                     [ c*y, c*x-d]])
+
+print('\n')
+print('------- Critical Points and Their Charactistics ----------------------')
+cp1check = de_system(0,cp1)
+print('cp1= ',cp1, 'check = ', cp1, ' (Both values to should be the same.)\n')
+
+A1 = jacobian(cp1)
+w,v = eig(A1)
+# Display eigenvalues for first critical point
+print('Eigenvalues for Critical Point (0,0):', w,'\n')
+#print('Eigenvectors:\n', v, '\n')
+
+
+cp2check = de_system(0,cp2)
+print('cp2= ',cp2, 'check = ', cp2)
+
+
+A2 = jacobian(cp2)
+w2,v2 = eig(A2)
+# Eigenvectors
+print('Eigenvalues for Critical Point (d/c, a/b):', w2, '\n')
+
+#------------------------------------------------------------------------------
 # Generate Vector Field
 x = np.linspace(0, 300, 30)
 y = np.linspace(0, 100, 20)
